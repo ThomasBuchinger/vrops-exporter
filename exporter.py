@@ -68,13 +68,13 @@ def run_prometheus_server(port, collectors,  *args):
 def initialize_collector_by_name(class_name):
     try:
         class_module = importlib.import_module('collectors.%s' % (class_name))
-    except:
+    except ModuleNotFoundError:
         print('No Collector "%s" defined. Ignoring...' % (class_name))
         return None
 
     try:
         return getattr(class_module, class_name)()
-    except AttributeError:
+    except:
         print('Unable to initialize "%s". Ignoring...' % (class_name))
         return None
 
